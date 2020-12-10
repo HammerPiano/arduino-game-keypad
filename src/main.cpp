@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <screen.h>
 #include <profiles/elite_dangerous.h>
-#include <bmps/elite_logo.h>
 
 #include <Keypad.h>
 
@@ -26,7 +25,6 @@ void setup()
 {
 	/* The space after dangrous is to make the scrolling look better */
 	screen.begin(ELITE_DANGEROUS_PROFILE.title, ELITE_DANGEROUS_PROFILE.pixels);
-	//screen.begin(" ", BMP_ELITE_LOGO);
 }
 
 void loop()
