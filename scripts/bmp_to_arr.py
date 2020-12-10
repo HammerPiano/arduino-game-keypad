@@ -28,10 +28,14 @@ def pixels_to_bytes(pixels):
 
 def parse_bmp(bmp_path):
 	# Read the bmp image
-	bmp_image = imread(bmp_path, )
+	bmp_image = imread(bmp_path)
 	pixels = get_pixel_list(bmp_image)
 	return pixels_to_bytes(pixels)
-	
+
+def get_bmp_size(bmp_path):
+	# Returning tuple: (width, height)
+	bmp_image = imread(bmp_path)
+	return len(bmp_image[0]), len(bmp_image)
 
 if __name__ == "__main__":
 	if len(argv) != PARAMETER_COUNT:
