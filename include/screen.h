@@ -107,6 +107,8 @@ private:
 
 	void cyclic_title_print(size_t char_num, size_t start_index=0)
 	{
+		bool space_printed = false;
+		size_t current_index = start_index;
 		if (char_num > this->_title.length())
 		{
 			char_num = this->_title.length();
@@ -114,10 +116,31 @@ private:
 		// Clear the title (execpt the underline)
 		this->_display.fillRect(0, 0, SCREEN_WIDTH, SCREEN_YELLOW_END, BLACK);
 		this->_display.setCursor(SCREEN_TITLE_X_OFFSET, SCREEN_TITLE_Y_OFFSET);
-		for (size_t i = 0; i < char_num; i++)
+		for (size_t printed_character_count = 0; printed_character_count < char_num; printed_character_count++)
 		{
 			/* Cyclic print of the title */
-			_display.print(_title[(start_index + i) % this->_title.length()]);
+			if (start_index + printed_character_count == this->_title.length())
+			{
+				_display.print(' ');
+				printed_character_count++;
+				space_printed = true;
+			}
+			current_index = start_index + printed_character_count;
+			// Space counts as a character printed, but not in the string, so we must subtract the 1 from number of characters to include the space
+			if (space_printed)
+			{
+				// Are we about to underflow?
+				if (current_index == 0)
+				{
+					current_index = this->_title.length() - 1;
+				}
+				else
+				{
+					current_index--;
+				}
+				
+			}
+			_display.print(_title[current_index % this->_title.length()]);
 		}
 		_display.display();
 	}

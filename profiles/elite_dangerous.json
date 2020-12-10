@@ -1,0 +1,16 @@
+{
+	"title": "Elite Dangerous",
+	"comments": "http://www.quadibloc.com/comp/scan.htm",
+	"keypad_values": [
+		225,
+		226,
+		227,
+		228,
+		229,
+		230,
+		231,
+		232,
+		233
+	],
+	"bit_map": "bmps/elite_dangerous.bmp"
+}

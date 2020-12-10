@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <screen.h>
+#include <profiles/elite_dangerous.h>
 #include <bmps/elite_logo.h>
 
 #include <Keypad.h>
@@ -19,11 +20,13 @@ char keys[KEYPAD_ROW_COUNT][KEYPAD_COL_COUNT] = {
 Keypad kpd = Keypad( makeKeymap(keys), KEYPAD_ROWS, KEYPAD_COLS, KEYPAD_ROW_COUNT, KEYPAD_COL_COUNT);
 
 Screen screen;
+uint32_t time_stamp = 0;
 
 void setup()
 {
 	/* The space after dangrous is to make the scrolling look better */
-	screen.begin(" ", BMP_ELITE_LOGO);
+	screen.begin(ELITE_DANGEROUS_PROFILE.title, ELITE_DANGEROUS_PROFILE.pixels);
+	//screen.begin(" ", BMP_ELITE_LOGO);
 }
 
 void loop()
@@ -42,4 +45,9 @@ void loop()
             }
         }
     }
+	if ((millis() - time_stamp) > 200)
+	{
+		time_stamp = millis();
+		screen.scroll_title();
+	}
 }

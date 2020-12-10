@@ -2,9 +2,13 @@ from imageio import imread
 from sys import argv
 
 PARAMETER_COUNT = 2 # program path, and picture path
+# Size of the BMP is 128x48 pixels
+BMP_WIDTH = 128
+BMP_HEIGHT = 48
 
 def get_pixel_list(bmp_image):
 	pixels = []
+	assert ((len(bmp_image) == BMP_HEIGHT) and (len(bmp_image[0]) == BMP_WIDTH)),  "Incorrect size for BMP image"
 	for row in bmp_image:
 		for pixel in row:
 			# Each pixel has the RGB values of it, the format is 8 bits for each pixel
@@ -32,10 +36,6 @@ def parse_bmp(bmp_path):
 	pixels = get_pixel_list(bmp_image)
 	return pixels_to_bytes(pixels)
 
-def get_bmp_size(bmp_path):
-	# Returning tuple: (width, height)
-	bmp_image = imread(bmp_path)
-	return len(bmp_image[0]), len(bmp_image)
 
 if __name__ == "__main__":
 	if len(argv) != PARAMETER_COUNT:
