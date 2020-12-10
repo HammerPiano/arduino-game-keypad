@@ -32,7 +32,7 @@ void setup()
 		for(;;); // Don't proceed, loop forever
 	}
 	test_print(12);
-	display.drawBitmap(40, 16, elite_logo, 48, 42, WHITE);
+	display.drawBitmap(0, 16, BMP_ELITE_LOGO, ELITE_LOGO_WIDTH, ELITE_LOGO_HEIGHT, WHITE);
 	display.display();
 }
 
