@@ -86,6 +86,11 @@ public:
 		return keymap[pin_number];
 	}
 
+	bool is_command_pin(byte pin)
+	{
+		// First row is command pin
+		return pin < sizeKpd.columns;
+	}
 private:
 	unsigned long startTime;
 	T * keymap;

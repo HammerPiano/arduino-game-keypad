@@ -26,7 +26,11 @@ void loop()
 {	
 	if (kpd.getKeys())
     {
-		screen.set_title(kpd[kpd.get_pressed_pins()[0]]);
+		byte pin = kpd.get_pressed_pins()[0];
+		if (kpd.is_command_pin(pin))
+		{
+			screen.set_title(kpd[pin] + String(pin));
+		}
     }
 	if ((millis() - time_stamp) > 200)
 	{
