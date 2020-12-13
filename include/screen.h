@@ -82,6 +82,10 @@ public:
 	 */
 	void scroll_title()
 	{
+		if (_title.length() <= SCREEN_TITLE_LENGTH)
+		{
+			return;
+		}
 		_current_index++;
 		if (_current_index > _title.length())
 		{
