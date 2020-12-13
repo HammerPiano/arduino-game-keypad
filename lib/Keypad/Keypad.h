@@ -12,6 +12,15 @@ typedef struct {
     byte columns;
 } KeypadSize;
 
+
+/**
+ * @brief This class repersents a keypad
+ * 
+ * @tparam T value assigned to a button, both control and a regular
+ * 
+ * Usage:	call check keypad, if any keys are pressed, it returns true
+ * 			the number of pins pressed is in get_pressed_pins_count, and the list is in get_pressed_pins
+ */
 template <class T>
 class Keypad {
 public:
@@ -46,7 +55,7 @@ public:
 	unsigned long holdTimer;
 
 	// Populate the key list.
-	bool getKeys()
+	bool check_keypad()
 	{
 		bool keyActivity = false;
 
@@ -86,11 +95,6 @@ public:
 		return keymap[pin_number];
 	}
 
-	bool is_command_pin(byte pin)
-	{
-		// First row is command pin
-		return pin < sizeKpd.columns;
-	}
 private:
 	unsigned long startTime;
 	T * keymap;
