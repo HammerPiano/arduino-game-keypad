@@ -1,3 +1,9 @@
+# Truly bizzare
+# https://docs.platformio.org/en/latest/projectconf/advanced_scripting.html#extra-python-packages
+Import("env")
+
+env.Execute('$PYTHONEXE -m pip install imageio')
+
 from bmp_to_arr import parse_bmp
 import json
 from os import listdir
