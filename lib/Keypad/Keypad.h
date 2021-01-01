@@ -7,6 +7,7 @@
 
 #pragma once
 
+
 typedef struct {
     byte rows;
     byte columns;
@@ -16,33 +17,29 @@ typedef struct {
 /**
  * @brief This class repersents a keypad
  * 
- * @tparam T value assigned to a button, both control and a regular
  * 
  * Usage:	call check keypad, if any keys are pressed, it returns true
  * 			the number of pins pressed is in get_pressed_pins_count, and the list is in get_pressed_pins
  */
-template <class T>
 class Keypad {
 public:
 
-	Keypad(T * userKeymap, byte * row, byte * col, byte numRows, byte numCols)
+	Keypad(char * userKeymap, const byte * row_pins, const byte * col_pins, byte numRows, byte numCols) : _row_pins(row_pins), _coloumn_pins(col_pins)
 	{
-		rowPins = row;
-		columnPins = col;
 		sizeKpd.rows = numRows;
 		sizeKpd.columns = numCols;
-		pressed_pins = malloc(numRows * numCols);
+		pressed_pins = new byte[numRows * numCols];
 		pressed_pins_count = 0;
 
 		// Init pins
 		for (byte i=0; i<sizeKpd.rows; i++)
 		{
-			pinMode(rowPins[i],INPUT_PULLUP);
+			pinMode(_row_pins[i],INPUT_PULLUP);
 		}
 
 		for (byte i = 0; i < sizeKpd.columns; i++)
 		{
-			pinMode(columnPins[i], INPUT);
+			pinMode(_coloumn_pins[i], INPUT);
 		}
 		
 
@@ -69,7 +66,7 @@ public:
 
 		return keyActivity;
 	}
-	void begin(T *userKeymap)
+	void begin(char *userKeymap)
 	{
     	keymap = userKeymap;
 	}
@@ -90,16 +87,16 @@ public:
 		return pressed_pins_count;
 	}
 
-	T operator[](byte pin_number)
+	char operator[](byte pin_number)
 	{
 		return keymap[pin_number];
 	}
 
 private:
 	unsigned long startTime;
-	T * keymap;
-    byte *rowPins;
-    byte *columnPins;
+	char * keymap;
+    const byte *_row_pins;
+    const byte *_coloumn_pins;
 	KeypadSize sizeKpd;
 	uint16_t debounceTime;
 
@@ -112,12 +109,12 @@ private:
 		// bitMap stores ALL the keys that are being pressed.
 		for (byte c=0; c<sizeKpd.columns; c++)
 		{
-			pinMode(columnPins[c],OUTPUT);
-			digitalWrite(columnPins[c], LOW);	// Begin column pulse output.
+			pinMode(_coloumn_pins[c],OUTPUT);
+			digitalWrite(_coloumn_pins[c], LOW);	// Begin column pulse output.
 			for (byte r=0; r<sizeKpd.rows; r++)
 			{
 				// keypress is active low so invert to high.
-				if (digitalRead(rowPins[r]) == LOW) 
+				if (digitalRead(_row_pins[r]) == LOW) 
 				{
 					/* Values, 2d array, with rows number of arraies, each colum number of cells */
 					pressed_pins[pressed_pins_count] = r * sizeKpd.columns + c; 
@@ -125,8 +122,8 @@ private:
 				}
 			}
 			// Set pin to high impedance input. Effectively ends column pulse.
-			digitalWrite(columnPins[c],HIGH);
-			pinMode(columnPins[c],INPUT);
+			digitalWrite(_coloumn_pins[c],HIGH);
+			pinMode(_coloumn_pins[c],INPUT);
 		}
 	}
 

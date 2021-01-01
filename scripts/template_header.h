@@ -1,18 +1,10 @@
 #pragma once
 
-#include <profiles/common.h>
+#include <Arduino.h>
 
-/*
-{comments}
-*/
+#define WIDTH	({width})
+#define HEIGHT	({height})
 
-const struct PROFILE_FLASH_t {struct_name} PROGMEM
-{{
-	
-	.title = "{title}",
-	.keypad_values = {{{keypad_values}}},
-	.pixels = 
-	{{
-		{pixels}
-	}}
+const uint8_t {picture_array_name}[] PROGMEM = {{
+	{pixels}
 }};

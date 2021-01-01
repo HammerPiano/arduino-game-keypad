@@ -8,7 +8,7 @@ BMP_HEIGHT = 48
 
 def get_pixel_list(bmp_image):
 	pixels = []
-	assert ((len(bmp_image) == BMP_HEIGHT) and (len(bmp_image[0]) == BMP_WIDTH)),  "Incorrect size for BMP image"
+	assert ((len(bmp_image) <= BMP_HEIGHT) and (len(bmp_image[0]) <= BMP_WIDTH)),  "Incorrect size for BMP image"
 	for row in bmp_image:
 		for pixel in row:
 			# Each pixel has the RGB values of it, the format is 8 bits for each pixel
@@ -33,8 +33,10 @@ def pixels_to_bytes(pixels):
 def parse_bmp(bmp_path):
 	# Read the bmp image
 	bmp_image = imread(bmp_path)
+	height = len(bmp_image)
+	width = len(bmp_image[0])
 	pixels = get_pixel_list(bmp_image)
-	return pixels_to_bytes(pixels)
+	return height, width, pixels_to_bytes(pixels)
 
 
 if __name__ == "__main__":
