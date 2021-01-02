@@ -26,15 +26,11 @@
 // ? floor((SCREEN_WIDTH) / character width of the font = 11
 // ? A good aproximation for the mono-space font
 #define SCREEN_TITLE_LENGTH (11)
-#define SCREEN_TITLE_MAX_LENGTH (64)
 #define SCREEN_TITLE_X_OFFSET (0)
 #define SCREEN_TITLE_Y_OFFSET (12)
 // For somereason, my address select in the module is soldered incorrectly
 #define SCREEN_ADDRESS (0x3C)
 
-#define SCREEN_BMP_MAX_WIDTH (SCREEN_WIDTH)
-#define SCREEN_BMP_MAX_HEIGHT (SCREEN_HEIGHT - SCREEN_BLUE_START)
-#define SCREEN_BMP_MAX_SIZE (SCREEN_BMP_MAX_WIDTH * SCREEN_BMP_MAX_HEIGHT)
 
 class Screen
 {
