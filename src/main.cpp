@@ -32,7 +32,7 @@ byte pressed_button = NO_BUTTON;
 void setup()
 {
 	/* The space after dangrous is to make the scrolling look better */
-	screen.begin("Elite Dangerous", ELITE_DANGEROUS_BMP);
+	//screen.begin("Elite Dangerous", ELITE_DANGEROUS_BMP);
 	joystick.begin();
 }
 
@@ -41,15 +41,20 @@ void loop()
 	if (kpd.check_keypad() && pressed_button == NO_BUTTON)
     {
 		byte pin = kpd.get_pressed_pins()[0];
-		screen.set_title(String((kpd[pin])));
-		joystick.pressButton(pin);
-		pressed_button = pin;
-		button_press_time = millis();
+		byte pin_value = kpd[pin] - '1';
+		//screen.set_title(String((kpd[pin])));
+		if (pin_value <= 9)
+		{
+			joystick.pressButton(pin_value);
+			pressed_button = pin_value;
+			button_press_time = millis();
+		}
+
     }
 	if ((millis() - time_stamp) > 200)
 	{
 		time_stamp = millis();
-		screen.scroll_title();
+		//screen.scroll_title();
 	}
 
 	if (pressed_button != NO_BUTTON && ((millis() - button_press_time) >= BUTTON_RELEASE_INTERVAL))
