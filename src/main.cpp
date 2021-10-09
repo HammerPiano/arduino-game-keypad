@@ -29,12 +29,11 @@ char keys[] = {'A', 'B', 'C',
 
 Keypad kpd = Keypad( keys, KEYPAD_ROWS, KEYPAD_COLS, KEYPAD_ROW_COUNT, KEYPAD_COL_COUNT);
 // Oh god I hate this soo much, but I need only buttons not a whole plane
-Joystick_ joystick(JOYSTICK_DEFAULT_REPORT_ID,JOYSTICK_TYPE_JOYSTICK, 12, 0, false, false, false, false, false, false, false, false, false, false, false);
+Joystick_ joystick(JOYSTICK_DEFAULT_REPORT_ID,JOYSTICK_TYPE_JOYSTICK, 28, 0, false, false, false, false, false, false, false, false, false, false, false);
 Screen screen;
 uint32_t time_stamp = 0, button_release_time = 0;
 byte current_command_button = NO_BUTTON;
 byte current_control_button = 0;
-byte prev_control_button = 0;
 
 void setup()
 {
@@ -43,7 +42,6 @@ void setup()
 
 	// Init control buttons
 	current_control_button = 0;
-	prev_control_button = 0;
 
 	// Start USB sub-process
 	joystick.begin();
@@ -63,25 +61,15 @@ void loop()
 			}
 			else
 			{
-				current_command_button = pressed_buttons[i];
+				// Control buttons offset the button index by 0, 9, 18, and command buttons start from 3
+				current_command_button = pressed_buttons[i] + (9 * (current_control_button)) - 3;
 			}
 		}
 		//screen.set_title(String((kpd[pin])));
 		if (current_command_button != NO_BUTTON)
 		{
 			button_release_time = millis() + COMMAND_BUTTON_RELEASE_INTERVAL;
-			joystick.pressButton(current_control_button);
-			delay(20);
 			joystick.pressButton(current_command_button);
-		}
-		// Notify computer of different mode selection
-		else if (prev_control_button != current_control_button)
-		{
-			prev_control_button = current_control_button;
-			// Just to initiate button cooldown timer
-			current_command_button = current_control_button;
-			joystick.pressButton(current_control_button);
-			button_release_time = millis() + CONTROL_BUTTON_RELEASE_INTERVAL;
 		}
 		
     }
@@ -94,7 +82,6 @@ void loop()
 	if (current_command_button != NO_BUTTON && (millis() > button_release_time))
 	{
 		joystick.releaseButton(current_command_button);
-		joystick.releaseButton(current_control_button);
 		current_command_button = NO_BUTTON;
 	}
 }
